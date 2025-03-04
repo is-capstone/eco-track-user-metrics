@@ -22,4 +22,6 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
       
       - name: Build with gradle
+        env:
+          GITHUB_SHA: {{ github.sha }}
         run: ./gradlew bootBuildImage
