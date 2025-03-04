@@ -60,17 +60,9 @@ dependencies {
 }
 
 tasks.named("bootBuildImage", org.springframework.boot.gradle.tasks.bundling.BootBuildImage::class) {
-    val username = System.getenv("GITHUB_ACTOR") as String
-    val password = System.getenv("GITHUB_TOKEN") as String
+    val repoOwnerAndName = System.getenv("GITHUB_ORG_REPO") as String
     val runId = System.getenv("GITHUB_SHA") as String
 
-    publish = true
-    docker.publishRegistry.username = username
-    docker.publishRegistry.password = password
-    docker.publishRegistry.url = "ghcr.io"
-
-    imageName = "ghcr.io/${username}/${rootProject.name}:${runId}"
+    imageName = "ghcr.io/${repoOwnerAndName}:${runId}"
     imagePlatform = "linux/amd64"
-    tags = setOf("latest", runId, "v${rootProject.version}")
-
 }
