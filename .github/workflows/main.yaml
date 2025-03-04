@@ -24,4 +24,6 @@ jobs:
       - name: Build with gradle
         env:
           GITHUB_SHA: ${{ github.sha }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew bootBuildImage
