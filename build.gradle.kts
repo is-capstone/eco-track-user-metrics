@@ -62,7 +62,6 @@ dependencies {
 tasks.named("bootBuildImage", org.springframework.boot.gradle.tasks.bundling.BootBuildImage::class) {
     val repoOwnerAndName = System.getenv("GITHUB_ORG_REPO") as String
     val runId = System.getenv("GITHUB_SHA") as String
-
-    imageName = "ghcr.io/${repoOwnerAndName}:${runId}"
+    imageName = "cr.selcloud.ru/${repoOwnerAndName}:${runId}"
     imagePlatform = "linux/amd64"
 }
