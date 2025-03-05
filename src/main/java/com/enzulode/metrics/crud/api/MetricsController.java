@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/metrics")
+@RequestMapping("/metrics-info")
 @RequiredArgsConstructor
 public class MetricsController {
 
