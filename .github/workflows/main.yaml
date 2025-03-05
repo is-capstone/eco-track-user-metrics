@@ -39,5 +39,5 @@ jobs:
           ./gradlew bootBuildImage \
             && docker tag cr.selcloud.ru/${{ github.repository }}:${{ github.sha }} cr.selcloud.ru/${{ github.repository }}:latest \
             && docker tag cr.selcloud.ru/${{ github.repository }}:${{ github.sha }} cr.selcloud.ru/${{ github.repository }}:${{ github.run_number }} \
-            && docker push cr.selcloud.ru/${{ github.repository }}:${{ github.run_number }}
+            && docker push cr.selcloud.ru/${{ github.repository }}:${{ github.run_number }} \
             && docker push cr.selcloud.ru/${{ github.repository }}:latest
