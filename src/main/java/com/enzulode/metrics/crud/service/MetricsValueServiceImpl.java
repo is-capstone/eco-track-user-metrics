@@ -12,7 +12,7 @@ public class MetricsValueServiceImpl extends AbstractBaseCrudService<MetricsValu
   }
 
   @Override
-  public MetricsValue update(Long id, MetricsValue entity) {
+  public MetricsValue internalUpdate(Long id, MetricsValue entity) {
     throw new RuntimeException("Operation not supported");
   }
 }
