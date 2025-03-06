@@ -2,9 +2,7 @@ package com.enzulode.metrics.crud.service;
 
 import com.enzulode.metrics.crud.dao.entity.Metrics;
 import com.enzulode.metrics.crud.dao.repository.MetricsRepository;
-import com.enzulode.metrics.crud.exception.ItemAlreadyExistsException;
 import com.enzulode.metrics.crud.exception.ItemNotFoundException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service

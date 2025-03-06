@@ -41,10 +41,10 @@ public class GlobalExceptionHandler {
         .body(new ErrorDto(msg));
   }
 
-  @ExceptionHandler(ItemUpdateFailedException.class)
-  public ResponseEntity<ErrorDto> itemUpdateFailed(ItemUpdateFailedException e) {
+  @ExceptionHandler(ItemAlreadyInUseException.class)
+  public ResponseEntity<ErrorDto> itemUpdateFailed(ItemAlreadyInUseException e) {
     var msg = List.of(ms.getMessage("api.error.update", null, LocaleContextHolder.getLocale()));
-    return ResponseEntity.badRequest()
+    return ResponseEntity.status(HttpStatus.CONFLICT)
         .body(new ErrorDto(msg));
   }
 

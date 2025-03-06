@@ -2,6 +2,7 @@ package com.enzulode.metrics.crud.service;
 
 import com.enzulode.metrics.crud.dao.entity.BaseEntity;
 import com.enzulode.metrics.crud.exception.ItemAlreadyExistsException;
+import com.enzulode.metrics.crud.exception.ItemAlreadyInUseException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,7 @@ public abstract class AbstractBaseCrudService<T extends BaseEntity<ID>, ID> impl
       throw e;
     }
   }
+
   public List<T> createAll(List<T> entities) {
     try {
       return repository.saveAll(entities);
@@ -69,9 +71,28 @@ public abstract class AbstractBaseCrudService<T extends BaseEntity<ID>, ID> impl
   }
 
   public void delete(ID id) {
-    repository.deleteById(id);
+    try {
+      repository.deleteById(id);
+    } catch (DataIntegrityViolationException e) {
+      var cause = e.getRootCause() == null ? e.getCause() : e.getRootCause();
+      if (cause != null) {
+        var message = cause.getMessage();
+        if (message.contains("violates foreign key constraint"))
+          throw new ItemAlreadyInUseException("Item is already used by another item", e);
+      }
+    }
   }
+
   public void deleteAll(List<ID> ids) {
-    repository.deleteAllById(ids);
+    try {
+      repository.deleteAllById(ids);
+    } catch (DataIntegrityViolationException e) {
+      var cause = e.getRootCause() == null ? e.getCause() : e.getRootCause();
+      if (cause != null) {
+        var message = cause.getMessage();
+        if (message.contains("violates foreign key constraint"))
+          throw new ItemAlreadyInUseException("Item is already used by another item", e);
+      }
+    }
   }
 }
