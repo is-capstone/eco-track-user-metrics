@@ -15,14 +15,19 @@ public class MetricsValuesController {
 
   private final MetricsValueServiceFacade facade;
 
-  @PostMapping("/create")
-  public MetricsValueReadDto create(@RequestBody MetricsValueCreateDto dto) {
-    return facade.create(dto);
+  @PostMapping("/{metricsId}/create")
+  public MetricsValueReadDto create(@PathVariable Long metricsId, @RequestBody MetricsValueCreateDto dto) {
+    return facade.create(metricsId, dto);
   }
 
   @GetMapping("/{id}")
   public MetricsValueReadDto findById(@PathVariable Long id) {
     return facade.findById(id);
+  }
+
+  @GetMapping("/{metricsId}/all")
+  public Page<MetricsValueReadDto> findByMetricsId(@PathVariable Long metricsId, Pageable pageable) {
+    return facade.findAllByMetricsId(metricsId, pageable);
   }
 
   @GetMapping
