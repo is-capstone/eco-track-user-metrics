@@ -22,7 +22,7 @@ public interface MetricsValueRepository extends JpaRepository<MetricsValue, Long
   void deleteByValueId(Long valueId);
 
   @Modifying
-  @Query(value = "WITH inserted_metrics_value AS (insert into eco_track_metrics_value as etmv (value, relevant_on) values (?2, ?3) returning etmv.id) INSERT INTO eco_track_metrics_on_metrics_values (metrics_id, value_id) VALUES (?1, inserted_metrics_value.id)", nativeQuery = true)
+  @Query(value = "WITH inserted_metrics_value AS (insert into eco_track_metrics_value as etmv (value, relevant_on) values (?2, ?3) returning etmv.id) INSERT INTO eco_track_metrics_on_metrics_values (metrics_id, value_id) VALUES (?1, (SELECT imv.id FROM inserted_metrics_value imv))", nativeQuery = true)
   void insertValue(Long metricsId, Double value, Instant relevantOn);
 
   @Query("SELECT mv FROM MetricsValue mv JOIN MetricsOnMetricsValues momv ON mv.id = momv.value.id WHERE momv.metrics.id = :metricsId")
