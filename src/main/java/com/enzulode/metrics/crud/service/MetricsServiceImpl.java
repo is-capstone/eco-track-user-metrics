@@ -15,21 +15,12 @@ public class MetricsServiceImpl extends AbstractBaseCrudService<Metrics, Long> i
   }
 
   @Override
-  public Metrics update(Long id, Metrics entity) {
+  protected Metrics internalUpdate(Long id, Metrics entity) {
     var existingMetrics = repository.findById(id)
-        .orElseThrow(() -> new ItemNotFoundException("Item not found"));
+        .orElseThrow(() -> new ItemNotFoundException("Item was not found"));
 
-    try {
-      existingMetrics.setTitle(entity.getTitle());
-      existingMetrics.setUnits(entity.getUnits());
-      return repository.save(existingMetrics);
-    } catch (DataIntegrityViolationException e) {
-      var message = e.getCause().getMessage();
-
-      if (message.contains("violates unique constraint"))
-        throw new ItemAlreadyExistsException("Item already exists", e);
-
-      throw e;
-    }
+    existingMetrics.setTitle(entity.getTitle());
+    existingMetrics.setUnits(entity.getUnits());
+    return repository.saveAndFlush(existingMetrics);
   }
 }
