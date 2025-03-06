@@ -1,15 +1,24 @@
 package com.enzulode.metrics.crud.service;
 
 import com.enzulode.metrics.crud.dao.entity.Metrics;
+import com.enzulode.metrics.crud.dao.repository.MetricsOnMetricsValuesRepository;
 import com.enzulode.metrics.crud.dao.repository.MetricsRepository;
+import com.enzulode.metrics.crud.exception.ItemAlreadyInUseException;
 import com.enzulode.metrics.crud.exception.ItemNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MetricsServiceImpl extends AbstractBaseCrudService<Metrics, Long> implements MetricsService {
 
-  public MetricsServiceImpl(MetricsRepository repository) {
+  private final MetricsOnMetricsValuesRepository metricsOnMetricsValuesRepository;
+
+  public MetricsServiceImpl(
+      MetricsRepository repository,
+      MetricsOnMetricsValuesRepository metricsOnMetricsValuesRepository
+  ) {
     super(repository);
+    this.metricsOnMetricsValuesRepository = metricsOnMetricsValuesRepository;
   }
 
   @Override
@@ -20,5 +29,23 @@ public class MetricsServiceImpl extends AbstractBaseCrudService<Metrics, Long> i
     existingMetrics.setTitle(entity.getTitle());
     existingMetrics.setUnits(entity.getUnits());
     return repository.saveAndFlush(existingMetrics);
+  }
+
+  @Override
+  public void delete(Long id) {
+    try {
+      metricsOnMetricsValuesRepository.deleteAllByMetricsId(id);
+      metricsOnMetricsValuesRepository.flush();
+      repository.deleteById(id);
+      repository.flush();
+    } catch (
+        DataIntegrityViolationException e) {
+      var cause = e.getRootCause() == null ? e.getCause() : e.getRootCause();
+      if (cause != null) {
+        var message = cause.getMessage();
+        if (message.contains("violates foreign key constraint"))
+          throw new ItemAlreadyInUseException("Item is already used by another item", e);
+      }
+    }
   }
 }
