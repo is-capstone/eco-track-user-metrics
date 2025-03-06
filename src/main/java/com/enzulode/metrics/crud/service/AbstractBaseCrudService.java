@@ -52,18 +52,7 @@ public abstract class AbstractBaseCrudService<T extends BaseEntity<ID>, ID> impl
     return repository.findAll(pageable);
   }
 
-  public T update(T entity) {
-    try {
-      return repository.save(entity);
-    } catch (DataIntegrityViolationException e) {
-      var message = e.getCause().getMessage();
-
-      if (message.contains("violates unique constraint"))
-        throw new ItemAlreadyExistsException("Item already exists", e);
-
-      throw e;
-    }
-  }
+  public abstract T update(ID id, T entity);
 
   public void delete(ID id) {
     repository.deleteById(id);
