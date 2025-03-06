@@ -25,11 +25,9 @@ public class MetricsValueServiceTransactionalFacadeImpl implements MetricsValueS
 
   @Override
   @Transactional
-  public MetricsValueReadDto create(MetricsValueCreateDto dto) {
+  public MetricsValueReadDto create(Long id, MetricsValueCreateDto dto) {
     var newMetricsValue = mapper.fromCreateDtoToEntity(dto);
-    return Optional.ofNullable(delegate.create(newMetricsValue))
-        .map(mapper::fromEntityToReadDto)
-        .orElseThrow(ItemCreationFailedException::new);
+    return mapper.fromEntityToReadDto(delegate.create(id, newMetricsValue));
   }
 
   @Override

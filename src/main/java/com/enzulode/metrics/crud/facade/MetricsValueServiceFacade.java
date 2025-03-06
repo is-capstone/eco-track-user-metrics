@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface MetricsValueServiceFacade {
 
-  MetricsValueReadDto create(MetricsValueCreateDto dto);
+  MetricsValueReadDto create(Long id, MetricsValueCreateDto dto);
 
   MetricsValueReadDto findById(Long id);
   Page<MetricsValueReadDto> findAll(Pageable pageable);

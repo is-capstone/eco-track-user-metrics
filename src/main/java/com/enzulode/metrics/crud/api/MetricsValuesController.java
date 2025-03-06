@@ -15,9 +15,9 @@ public class MetricsValuesController {
 
   private final MetricsValueServiceFacade facade;
 
-  @PostMapping("/create")
-  public MetricsValueReadDto create(@RequestBody MetricsValueCreateDto dto) {
-    return facade.create(dto);
+  @PostMapping("/{metricsId}/create")
+  public MetricsValueReadDto create(@PathVariable Long metricsId, @RequestBody MetricsValueCreateDto dto) {
+    return facade.create(metricsId, dto);
   }
 
   @GetMapping("/{id}")
