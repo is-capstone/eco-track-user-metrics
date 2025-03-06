@@ -3,7 +3,6 @@ package com.enzulode.metrics.crud.facade;
 import com.enzulode.metrics.crud.dto.api.metricsvalue.MetricsValueCreateDto;
 import com.enzulode.metrics.crud.dto.api.metricsvalue.MetricsValueReadDto;
 import com.enzulode.metrics.crud.dto.api.metricsvalue.MetricsValueUpdateDto;
-import com.enzulode.metrics.crud.exception.ItemCreationFailedException;
 import com.enzulode.metrics.crud.exception.ItemNotFoundException;
 import com.enzulode.metrics.crud.mapper.MetricsValueMapper;
 import com.enzulode.metrics.crud.service.MetricsValueService;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +38,12 @@ public class MetricsValueServiceTransactionalFacadeImpl implements MetricsValueS
   @Override
   public Page<MetricsValueReadDto> findAll(Pageable pageable) {
     return delegate.findAll(pageable)
+        .map(mapper::fromEntityToReadDto);
+  }
+
+  @Override
+  public Page<MetricsValueReadDto> findAllByMetricsId(Long metricsId, Pageable pageable) {
+    return delegate.findAllByMetricsId(metricsId, pageable)
         .map(mapper::fromEntityToReadDto);
   }
 

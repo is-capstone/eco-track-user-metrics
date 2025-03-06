@@ -14,6 +14,7 @@ public interface MetricsValueServiceFacade {
 
   MetricsValueReadDto findById(Long id);
   Page<MetricsValueReadDto> findAll(Pageable pageable);
+  Page<MetricsValueReadDto> findAllByMetricsId(Long metricsId, Pageable pageable);
 
   MetricsValueReadDto update(Long id, MetricsValueUpdateDto dto);
 

@@ -25,6 +25,11 @@ public class MetricsValuesController {
     return facade.findById(id);
   }
 
+  @GetMapping("/{metricsId}/all")
+  public Page<MetricsValueReadDto> findByMetricsId(@PathVariable Long metricsId, Pageable pageable) {
+    return facade.findAllByMetricsId(metricsId, pageable);
+  }
+
   @GetMapping
   public Page<MetricsValueReadDto> findAll(Pageable pageable) {
     return facade.findAll(pageable);

@@ -5,6 +5,8 @@ import com.enzulode.metrics.crud.dao.repository.MetricsValueRepository;
 import com.enzulode.metrics.crud.exception.ItemAlreadyExistsException;
 import com.enzulode.metrics.crud.exception.ItemAlreadyInUseException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,6 +36,11 @@ public class MetricsValueServiceImpl extends AbstractBaseCrudService<MetricsValu
       throw e;
     }
     return null;
+  }
+
+  @Override
+  public Page<MetricsValue> findAllByMetricsId(Long metricsId, Pageable pageable) {
+    return metricsValueRepository.findAllByMetricsId(metricsId, pageable);
   }
 
   @Override
