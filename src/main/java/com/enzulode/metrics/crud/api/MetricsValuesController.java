@@ -2,7 +2,6 @@ package com.enzulode.metrics.crud.api;
 
 import com.enzulode.metrics.crud.dto.api.metricsvalue.MetricsValueCreateDto;
 import com.enzulode.metrics.crud.dto.api.metricsvalue.MetricsValueReadDto;
-import com.enzulode.metrics.crud.dto.api.metricsvalue.MetricsValueUpdateDto;
 import com.enzulode.metrics.crud.facade.MetricsValueServiceFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,11 +28,6 @@ public class MetricsValuesController {
   @GetMapping
   public Page<MetricsValueReadDto> findAll(Pageable pageable) {
     return facade.findAll(pageable);
-  }
-
-  @PutMapping("/{id}/update")
-  public MetricsValueReadDto update(@PathVariable Long id, @RequestBody MetricsValueUpdateDto dto) {
-    return facade.update(id, dto);
   }
 
   @DeleteMapping("/{id}/delete")
