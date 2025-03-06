@@ -37,6 +37,20 @@ public class UnitsServiceImpl extends AbstractBaseCrudService<Units, Long> imple
 
       System.out.println("NO CAUSE :(");
       throw e;
+    } catch (Exception e) {
+      System.out.println("MSG: " + e.getMessage() + "\n\n");
+      if (e.getCause() != null) System.out.println("CAUSE: " + e.getCause().getClass().getName() + "\n\n");
+
+      var cause = e.getCause();
+      if (cause != null) {
+        System.out.println("WE HAVE A CAUSE");
+        var message = cause.getMessage();
+        if (message.contains("violates unique constraint"))
+          throw new ItemAlreadyExistsException("Item already exists", e);
+      }
+
+      System.out.println("NO CAUSE :(");
+      throw e;
     }
   }
 }
