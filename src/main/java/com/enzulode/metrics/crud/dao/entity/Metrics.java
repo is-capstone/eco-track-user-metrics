@@ -11,14 +11,9 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "eco_track_metrics")
-public class Metrics {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Metrics extends BaseEntity<Long> {
 
   @Column(nullable = false, unique = true)
   private String title;
@@ -40,6 +35,18 @@ public class Metrics {
 //      inverseJoinColumns = @JoinColumn(name = "metrics_value_id")
 //  )
 //  private Set<MetricsValue> values = new HashSet<>();
+
+  public Metrics(Long id, String title, Units units) {
+    super(id);
+    this.title = title;
+    this.units = units;
+  }
+
+  public Metrics(String title, Units units) {
+    super();
+    this.title = title;
+    this.units = units;
+  }
 
   @Override
   public final boolean equals(Object o) {
