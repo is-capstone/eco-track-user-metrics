@@ -37,7 +37,7 @@ public class UnitsServiceImpl extends AbstractBaseCrudService<Units, Long> imple
 
       System.out.println("NO CAUSE :(");
       throw e;
-    } catch (Exception e) {
+    } catch (Throwable e) {
       System.out.println("MSG: " + e.getMessage() + "\n\n");
       if (e.getCause() != null) System.out.println("CAUSE: " + e.getCause().getClass().getName() + "\n\n");
 
