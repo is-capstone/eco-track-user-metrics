@@ -73,6 +73,7 @@ public abstract class AbstractBaseCrudService<T extends BaseEntity<ID>, ID> impl
   public void delete(ID id) {
     try {
       repository.deleteById(id);
+      repository.flush();
     } catch (DataIntegrityViolationException e) {
       var cause = e.getRootCause() == null ? e.getCause() : e.getRootCause();
       if (cause != null) {
@@ -86,6 +87,7 @@ public abstract class AbstractBaseCrudService<T extends BaseEntity<ID>, ID> impl
   public void deleteAll(List<ID> ids) {
     try {
       repository.deleteAllById(ids);
+      repository.flush();
     } catch (DataIntegrityViolationException e) {
       var cause = e.getRootCause() == null ? e.getCause() : e.getRootCause();
       if (cause != null) {
