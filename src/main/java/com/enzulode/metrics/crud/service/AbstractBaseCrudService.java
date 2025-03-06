@@ -53,7 +53,16 @@ public abstract class AbstractBaseCrudService<T extends BaseEntity<ID>, ID> impl
   }
 
   public T update(T entity) {
-    return repository.save(entity);
+    try {
+      return repository.save(entity);
+    } catch (DataIntegrityViolationException e) {
+      var message = e.getCause().getMessage();
+
+      if (message.contains("violates unique constraint"))
+        throw new ItemAlreadyExistsException("Item already exists", e);
+
+      throw e;
+    }
   }
 
   public void delete(ID id) {
