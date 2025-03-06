@@ -1,7 +1,6 @@
 package com.enzulode.metrics.crud.service;
 
 import com.enzulode.metrics.crud.dao.entity.MetricsValue;
-import com.enzulode.metrics.crud.dao.repository.MetricsOnMetricsValuesRepository;
 import com.enzulode.metrics.crud.dao.repository.MetricsValueRepository;
 import com.enzulode.metrics.crud.exception.ItemAlreadyInUseException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,14 +9,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class MetricsValueServiceImpl extends AbstractBaseCrudService<MetricsValue, Long> implements MetricsValueService {
 
-  private final MetricsOnMetricsValuesRepository metricsOnMetricsValuesRepository;
+  private final MetricsValueRepository metricsValueRepository;
 
   public MetricsValueServiceImpl(
       MetricsValueRepository repository,
-      MetricsOnMetricsValuesRepository metricsOnMetricsValuesRepository
+      MetricsValueRepository metricsValueRepository
   ) {
     super(repository);
-    this.metricsOnMetricsValuesRepository = metricsOnMetricsValuesRepository;
+    this.metricsValueRepository = metricsValueRepository;
   }
 
   @Override
@@ -28,8 +27,8 @@ public class MetricsValueServiceImpl extends AbstractBaseCrudService<MetricsValu
   @Override
   public void delete(Long id) {
     try {
-      metricsOnMetricsValuesRepository.deleteAllByValueId(id);
-      metricsOnMetricsValuesRepository.flush();
+      metricsValueRepository.deleteByValueId(id);
+      metricsValueRepository.flush();
     } catch (DataIntegrityViolationException e) {
       var cause = e.getRootCause() == null ? e.getCause() : e.getRootCause();
       if (cause != null) {

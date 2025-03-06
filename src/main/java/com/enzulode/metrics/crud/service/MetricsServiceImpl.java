@@ -1,8 +1,8 @@
 package com.enzulode.metrics.crud.service;
 
 import com.enzulode.metrics.crud.dao.entity.Metrics;
-import com.enzulode.metrics.crud.dao.repository.MetricsOnMetricsValuesRepository;
 import com.enzulode.metrics.crud.dao.repository.MetricsRepository;
+import com.enzulode.metrics.crud.dao.repository.MetricsValueRepository;
 import com.enzulode.metrics.crud.exception.ItemAlreadyInUseException;
 import com.enzulode.metrics.crud.exception.ItemNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class MetricsServiceImpl extends AbstractBaseCrudService<Metrics, Long> implements MetricsService {
 
-  private final MetricsOnMetricsValuesRepository metricsOnMetricsValuesRepository;
+  private final MetricsValueRepository metricsValueRepository;
 
   public MetricsServiceImpl(
       MetricsRepository repository,
-      MetricsOnMetricsValuesRepository metricsOnMetricsValuesRepository
+      MetricsValueRepository metricsValueRepository
   ) {
     super(repository);
-    this.metricsOnMetricsValuesRepository = metricsOnMetricsValuesRepository;
+    this.metricsValueRepository = metricsValueRepository;
   }
 
   @Override
@@ -34,8 +34,8 @@ public class MetricsServiceImpl extends AbstractBaseCrudService<Metrics, Long> i
   @Override
   public void delete(Long id) {
     try {
-      metricsOnMetricsValuesRepository.deleteAllByMetricsId(id);
-      metricsOnMetricsValuesRepository.flush();
+      metricsValueRepository.deleteByMetricsId(id);
+      metricsValueRepository.flush();
       repository.deleteById(id);
       repository.flush();
     } catch (
