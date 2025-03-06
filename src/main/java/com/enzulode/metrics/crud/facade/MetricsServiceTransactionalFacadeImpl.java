@@ -5,7 +5,6 @@ import com.enzulode.metrics.crud.dto.api.metrics.MetricsReadDto;
 import com.enzulode.metrics.crud.dto.api.metrics.MetricsUpdateDto;
 import com.enzulode.metrics.crud.exception.ItemCreationFailedException;
 import com.enzulode.metrics.crud.exception.ItemNotFoundException;
-import com.enzulode.metrics.crud.exception.ItemUpdateFailedException;
 import com.enzulode.metrics.crud.mapper.MetricsMapper;
 import com.enzulode.metrics.crud.service.MetricsService;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +49,7 @@ public class MetricsServiceTransactionalFacadeImpl implements MetricsServiceFaca
   @Transactional
   public MetricsReadDto update(Long id, MetricsUpdateDto dto) {
     var updatingMetrics = mapper.fromUpdateDtoToEntity(dto, id);
-    return Optional.ofNullable(delegate.update(updatingMetrics))
-        .map(mapper::fromEntityToReadDto)
-        .orElseThrow(ItemUpdateFailedException::new);
+    return mapper.fromEntityToReadDto(delegate.update(id, updatingMetrics));
   }
 
   @Override

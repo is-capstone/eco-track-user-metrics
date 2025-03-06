@@ -52,9 +52,7 @@ public abstract class AbstractBaseCrudService<T extends BaseEntity<ID>, ID> impl
     return repository.findAll(pageable);
   }
 
-  public T update(T entity) {
-    return repository.save(entity);
-  }
+  public abstract T update(ID id, T entity);
 
   public void delete(ID id) {
     repository.deleteById(id);

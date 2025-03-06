@@ -3,9 +3,7 @@ package com.enzulode.metrics.crud.facade;
 import com.enzulode.metrics.crud.dto.api.units.UnitsCreateDto;
 import com.enzulode.metrics.crud.dto.api.units.UnitsReadDto;
 import com.enzulode.metrics.crud.dto.api.units.UnitsUpdateDto;
-import com.enzulode.metrics.crud.exception.ItemCreationFailedException;
 import com.enzulode.metrics.crud.exception.ItemNotFoundException;
-import com.enzulode.metrics.crud.exception.ItemUpdateFailedException;
 import com.enzulode.metrics.crud.mapper.UnitsMapper;
 import com.enzulode.metrics.crud.service.UnitsService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +25,7 @@ public class UnitsServiceTransactionalFacadeImpl implements UnitsServiceFacade {
   @Transactional
   public UnitsReadDto create(UnitsCreateDto dto) {
     var newUnits = mapper.fromCreateDtoToEntity(dto);
-    return Optional.ofNullable(delegate.create(newUnits))
-        .map(mapper::fromEntityToReadDto)
-        .orElseThrow(ItemCreationFailedException::new);
+    return mapper.fromEntityToReadDto(delegate.create(newUnits));
   }
 
   @Override
@@ -50,9 +45,7 @@ public class UnitsServiceTransactionalFacadeImpl implements UnitsServiceFacade {
   @Transactional
   public UnitsReadDto update(Long id, UnitsUpdateDto dto) {
     var updatingUnits = mapper.fromUpdateDtoToEntity(dto, id);
-    return Optional.ofNullable(delegate.update(updatingUnits))
-        .map(mapper::fromEntityToReadDto)
-        .orElseThrow(ItemUpdateFailedException::new);
+    return mapper.fromEntityToReadDto(delegate.update(id, updatingUnits));
   }
 
   @Override

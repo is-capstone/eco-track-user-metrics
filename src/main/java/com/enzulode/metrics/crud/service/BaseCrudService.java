@@ -14,7 +14,7 @@ public interface BaseCrudService<T, ID> {
   Optional<T> findById(ID id);
   Page<T> findAll(Pageable pageable);
 
-  T update(T entities);
+  T update(ID id, T entity);
 
   void delete(ID id);
   void deleteAll(List<ID> ids);
