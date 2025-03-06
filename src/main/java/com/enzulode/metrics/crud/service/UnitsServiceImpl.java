@@ -23,7 +23,7 @@ public class UnitsServiceImpl extends AbstractBaseCrudService<Units, Long> imple
       existingUnits.setTitle(entity.getTitle());
       return repository.save(existingUnits);
     } catch (DataIntegrityViolationException e) {
-      var message = e.getCause().getMessage();
+      var message = e.getMessage();
 
       if (message.contains("violates unique constraint"))
         throw new ItemAlreadyExistsException("Item already exists", e);
