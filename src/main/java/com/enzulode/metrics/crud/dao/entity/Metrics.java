@@ -22,7 +22,7 @@ public class Metrics extends BaseEntity<Long> {
   @JoinColumn(name = "units_id")
   private Units units;
 
-  @OneToMany(mappedBy = "metrics", cascade = { CascadeType.REMOVE })
+  @OneToMany(mappedBy = "metrics")
   @Getter(AccessLevel.NONE)
 //  @Setter(AccessLevel.NONE)
   private Set<MetricsOnMetricsValues> metrics = new HashSet<>();

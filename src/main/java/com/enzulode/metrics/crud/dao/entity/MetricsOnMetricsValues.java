@@ -26,7 +26,7 @@ public class MetricsOnMetricsValues {
   @JoinColumn(name = "metrics_id")
   private Metrics metrics;
 
-  @ManyToOne(cascade = CascadeType.REMOVE)
+  @ManyToOne
   @JoinColumn(name = "value_id")
   private MetricsValue value;
 
