@@ -2,4 +2,7 @@ package com.enzulode.metrics.crud.service;
 
 import com.enzulode.metrics.crud.dao.entity.MetricsValue;
 
-public interface MetricsValueService extends BaseCrudService<MetricsValue, Long> {}
+public interface MetricsValueService extends BaseCrudService<MetricsValue, Long> {
+
+  MetricsValue create(Long metricsId, MetricsValue metricsValue);
+}
