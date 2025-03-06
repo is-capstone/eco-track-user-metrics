@@ -10,4 +10,9 @@ public class MetricsValueServiceImpl extends AbstractBaseCrudService<MetricsValu
   public MetricsValueServiceImpl(MetricsValueRepository repository) {
     super(repository);
   }
+
+  @Override
+  public MetricsValue update(Long id, MetricsValue entity) {
+    throw new RuntimeException("Operation not supported");
+  }
 }
