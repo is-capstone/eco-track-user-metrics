@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,6 +18,14 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
   private final MessageSource ms;
+
+  @ExceptionHandler(ItemAlreadyExistsException.class)
+  public ResponseEntity<ErrorDto> itemAlreadyExists(ItemAlreadyExistsException e) {
+    var msg = List.of(ms.getMessage("api.error.itemalreadyexists", null, LocaleContextHolder.getLocale()));
+    return ResponseEntity.status(HttpStatus.CONFLICT)
+        .body(new ErrorDto(msg));
+  }
+
 
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<ErrorDto> illegalArgumentsProvided(IllegalArgumentException e) {
