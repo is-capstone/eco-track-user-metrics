@@ -13,15 +13,9 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "eco_track_metrics_value")
-public class MetricsValue {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @JsonIgnore
-  private Long id;
+public class MetricsValue extends BaseEntity<Long> {
 
   @Column(nullable = false)
   private double value;
@@ -39,7 +33,14 @@ public class MetricsValue {
   @JsonIgnore
   private Set<MetricsOnMetricsValues> metricsOnValues = new HashSet<>();
 
+  public MetricsValue(Long id, double value, Instant relevantOn) {
+    super(id);
+    this.value = value;
+    this.relevantOn = relevantOn;
+  }
+
   public MetricsValue(double value, Instant relevantOn) {
+    super();
     this.value = value;
     this.relevantOn = relevantOn;
   }

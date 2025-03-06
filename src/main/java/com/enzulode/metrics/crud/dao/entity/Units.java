@@ -12,17 +12,22 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "eco_track_units")
-public class Units {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Units extends BaseEntity<Long> {
 
   @Column(nullable = false, unique = true)
   private String title;
+
+  public Units(Long id, String title) {
+    super(id);
+    this.title = title;
+  }
+
+  public Units(String title) {
+    super();
+    this.title = title;
+  }
 
   @Override
   public final boolean equals(Object o) {
