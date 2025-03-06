@@ -28,8 +28,7 @@ public class I18nConfig {
     AcceptHeaderLocaleResolver resolver = new AcceptHeaderLocaleResolver();
     resolver.setSupportedLocales(List.of(
         Locale.of("en", "GB"),
-        Locale.of("en", "US"),
-        Locale.of("ru", "RU")
+        Locale.of("en", "US")
     ));
     return resolver;
   }

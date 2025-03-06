@@ -1,6 +1,7 @@
 package com.enzulode.metrics.crud.service;
 
 import com.enzulode.metrics.crud.dao.entity.BaseEntity;
+import com.enzulode.metrics.crud.exception.ItemAlreadyExistsException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -24,29 +25,24 @@ public abstract class AbstractBaseCrudService<T extends BaseEntity<ID>, ID> impl
       return repository.save(entity);
     } catch (DataIntegrityViolationException e) {
 
-      System.out.println();
-      System.out.println("ROOOT CAUSE");
-      System.out.println((e.getRootCause() != null) ? e.getRootCause().getMessage() : "NO ROOT CAUSE");
-      System.out.println();
-      if (e.getRootCause() != null) System.out.println("ROOT CAUSE CLASS: " + e.getRootCause().getClass().getName());
-      if (e.getRootCause() != null) e.getRootCause().printStackTrace();
-      System.out.println("ROOOT CAUSE ENDED");
-      System.out.println();
-
-      System.out.println();
-      System.out.println("CAUSE");
-      System.out.println((e.getCause() != null) ? e.getCause().getMessage() : "CAUSE");
-      System.out.println();
-      if (e.getCause() != null) System.out.println("CAUSE CLASS: " + e.getCause().getClass().getName());
-      if (e.getCause() != null) e.getCause().printStackTrace();
-      System.out.println("CAUSE ENDED");
-      System.out.println();
+      var message = e.getCause().getMessage();
+      if (message.contains("violates unique constraint"))
+        throw new ItemAlreadyExistsException("Item already exists", e);
 
       throw e;
     }
   }
   public List<T> createAll(List<T> entities) {
-    return repository.saveAll(entities);
+    try {
+      return repository.saveAll(entities);
+    } catch (DataIntegrityViolationException e) {
+
+      var message = e.getCause().getMessage();
+      if (message.contains("violates unique constraint"))
+        throw new ItemAlreadyExistsException("Item already exists", e);
+
+      throw e;
+    }
   }
 
   public Optional<T> findById(ID id) {
