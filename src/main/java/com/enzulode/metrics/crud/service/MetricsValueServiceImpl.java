@@ -30,8 +30,6 @@ public class MetricsValueServiceImpl extends AbstractBaseCrudService<MetricsValu
     try {
       metricsOnMetricsValuesRepository.deleteAllByValueId(id);
       metricsOnMetricsValuesRepository.flush();
-      repository.deleteById(id);
-      repository.flush();
     } catch (DataIntegrityViolationException e) {
       var cause = e.getRootCause() == null ? e.getCause() : e.getRootCause();
       if (cause != null) {
