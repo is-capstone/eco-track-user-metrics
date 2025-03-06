@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(ItemAlreadyInUseException.class)
   public ResponseEntity<ErrorDto> itemUpdateFailed(ItemAlreadyInUseException e) {
-    var msg = List.of(ms.getMessage("api.error.update", null, LocaleContextHolder.getLocale()));
+    var msg = List.of(ms.getMessage("api.error.update.alreadyinuse", null, LocaleContextHolder.getLocale()));
     return ResponseEntity.status(HttpStatus.CONFLICT)
         .body(new ErrorDto(msg));
   }
