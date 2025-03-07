@@ -35,7 +35,7 @@ public class FileProcessorImpl implements FileProcessor {
 
   @Override
   public void processCsv(Long metricsId, InputStream is) {
-    int batchSize = 10;
+    int batchSize = 100000; // 10
     var td = new DefaultTransactionDefinition();
     var ts = tm.getTransaction(td);
     try(var br = new BufferedReader(new InputStreamReader(is))) {
