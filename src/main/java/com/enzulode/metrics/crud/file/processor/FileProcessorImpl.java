@@ -53,6 +53,7 @@ public class FileProcessorImpl implements FileProcessor {
         v = metricsValueRepository.saveAll(v);
 
         var metricsOnValues = v.stream()
+            .parallel()
             .map( el -> new MetricsOnMetricsValues(metrics, el) )
             .toList();
         metricsOnMetricsValuesRepo.saveAll(metricsOnValues);
